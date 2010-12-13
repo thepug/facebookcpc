@@ -21,16 +21,14 @@ window.fbAsyncInit = function() {
 }());
 // simple facebook posting
 var FBCPC = function($) {
+    var FBAPPNAME = "Charleston Park's Conservancy";
+    var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"#\" method=\"POST\" invite=\"true\" type=\"" +
+        FBAPPNAME +
+        "\" content=\"I just donated to the Charleston Park's Conservancy.\" ><fb:multi-friend-selector showborder=\"true\" actiontext=\"Invite your friends to donate!\"/></fb:request-form></script></fb:fbml></fb:serverFbml>";
+    
     var $fblogin = $('#fblogin');
-    // Form for posting message to a friends wall.
-    var postFriends = function(friends) {
-        for (var i = 0; i < friends.length; i++)
-        {
-            var friend = friends[0];
-            console.log(friend);
-            var li = ["<li>","</li>"];
-        }
-    };
+    var $fbfriends = $('#fbfriends');
+
     var obj = {
         // Form for posting the facebook badge.
         postBadge: function() {
@@ -57,12 +55,19 @@ var FBCPC = function($) {
                     {
                         $fblogin.html("Badge Posted.");
                         //render friends select
-                        //render friends post invite
+                        var elem = $fbfriends.get(0);
+                        elem.innerHTML = fbfriendsformtmpl;
+                        FB.XFBML.parse(document.getElementById('fbfriends'));
+
                     }
                     else
                     {
                         $fblogin.html(
                             "Cancled Posting Badge. Click To Try Again.");
+                        // Test rendering friends
+                        //var elem = $fbfriends.get(0);
+                        //elem.innerHTML = fbfriendsformtmpl;
+                        //FB.XFBML.parse(document.getElementById('fbfriends'));
                     }
                 }
             );
