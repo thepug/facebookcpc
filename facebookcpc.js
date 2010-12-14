@@ -22,10 +22,29 @@ window.fbAsyncInit = function() {
 // simple facebook posting
 var FBCPC = function($) {
     var FBAPPNAME = "Charleston Park's Conservancy";
-    var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"#\" method=\"POST\" invite=\"true\" type=\"" +
+    var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
+        document.location +
+        "\" method=\"POST\" invite=\"false\" type=\"" +
         FBAPPNAME +
         "\" content=\"I just donated to the Charleston Park's Conservancy.\" ><fb:multi-friend-selector showborder=\"true\" actiontext=\"Invite your friends to donate!\"/></fb:request-form></script></fb:fbml></fb:serverFbml>";
-    
+
+    var FBBADGE = {
+        method: 'stream.publish',
+        message: 'I showed love to the Parks Conservancy!',
+        attachment: {
+            name: 'Charleston Parks Conservancy Donation.',
+            caption: 'I donated money!',
+            description: ('Charleston Parks Conservancy. '),
+            href: 'http://www.charlestonparksconservancy.org/'
+        },
+        action_links: [
+            { text:'fbcpc',
+              href: 'http://www.charlestonparksconservancy.org/' }
+        ],
+        user_message_prompt:
+        "Charleston Parks Concervancy Donation Badge!"
+    };
+
     var $fblogin = $('#fblogin');
     var $fbfriends = $('#fbfriends');
 
@@ -33,23 +52,7 @@ var FBCPC = function($) {
         // Form for posting the facebook badge.
         postBadge: function() {
             $fblogin.html("Posting Badge.");
-            FB.ui(
-                {
-                    method: 'stream.publish',
-                    message: 'I showed love to the Parks Conservancy!',
-                    attachment: {
-                        name: 'Charleston Parks Conservancy Donation.',
-                        caption: 'I donated money!',
-                        description: ('Charleston Parks Conservancy. '),
-                        href: 'http://www.charlestonparksconservancy.org/'
-                    },
-                    action_links: [
-                        { text:'fbcpc',
-                          href: 'http://www.charlestonparksconservancy.org/' }
-                    ],
-                    user_message_prompt:
-                    "Charleston Parks Concervancy Donation Badge!"
-                },
+            FB.ui(FBBADGE,
                 function(response) {
                     if (response && response.post_id)
                     {
@@ -64,10 +67,6 @@ var FBCPC = function($) {
                     {
                         $fblogin.html(
                             "Cancled Posting Badge. Click To Try Again.");
-                        // Test rendering friends
-                        //var elem = $fbfriends.get(0);
-                        //elem.innerHTML = fbfriendsformtmpl;
-                        //FB.XFBML.parse(document.getElementById('fbfriends'));
                     }
                 }
             );
