@@ -5,20 +5,6 @@ Facebook post to an authenticated users wall. Used to post to friends and
 the current user.
 
 */
-// Facebook Javascript API init code
-window.fbAsyncInit = function() {
-    FB.init({appId: '171559142877864', status: true, cookie: true,
-             xfbml: true});
-    FBCPC.init();
-};
-(function() {
-    var e = document.createElement('script');
-    e.type = 'text/javascript';
-    e.src = document.location.protocol +
-        '//connect.facebook.net/en_US/all.js';
-    e.async = true;
-    document.getElementById('fb-root').appendChild(e);
-}());
 // simple facebook posting
 var FBCPC = function($) {
     var FBAPPNAME = "Charleston Park's Conservancy";
@@ -47,7 +33,6 @@ var FBCPC = function($) {
 
     var $fblogin = $('#fblogin');
     var $fbfriends = $('#fbfriends');
-
     var obj = {
         // Form for posting the facebook badge.
         postBadge: function() {
