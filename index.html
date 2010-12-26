@@ -7,9 +7,35 @@
   </head>
   <body>
     <h1>Charleston Parks Conservancy Donation</h1>
-    <a id="fblogin" href="#">Post Badge to Facebook.</a>
-    <div id='fbfriends'></div>
-    <div id="fb-root"></div>
+    <div id='facebookcpc'>
+      <a id="fblogin" href="#">Post Badge to Facebook.</a>
+      <div id='fbfriends'></div>
+      <div id="fb-root"></div>
+    </div>
+    <script type="text/javascript"> 
+      var FacebookBadgeConfiguration = {
+          name: "Charleston Parks Conservancy.",
+          badge: {
+            method: 'stream.publish',
+            message: 'I showed love to the Parks Conservancy!',
+            attachment: {
+                name: 'Charleston Parks Conservancy Donation.',
+                caption: 'I donated money!',
+                description: ('Charleston Parks Conservancy. '),
+                href: 'http://www.charlestonparksconservancy.org/'
+            },
+            action_links: [
+                { text:'Charleston Parks Conservancy',
+                  href: 'http://www.charlestonparksconservancy.org/' }
+            ],
+            user_message_prompt:
+            "Charleston Parks Concervancy Donation Badge!"
+          },
+          friends_invite_content: "I just donated to the Charleston Park's Conservancy.",
+          friends_invite_actiontext: "Invite your friends to donate!",
+          show_messages: true
+      };
+    </script>
     <script type="text/javascript" src="loadfacebookcpc.js"></script>
   </body>
 </html>

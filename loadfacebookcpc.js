@@ -15,7 +15,11 @@ window.fbAsyncInit = function() {
                          xfbml: true});
             })
             .script("facebookcpc.js").wait(function() {
-                FBCPC.init();
+                var opts = {};
+                try {
+                    opts = FacebookBadgeConfiguration;                    
+                } catch (e) {}
+                FBCPC.init(opts);
             });
     };    
     setTimeout(function () {

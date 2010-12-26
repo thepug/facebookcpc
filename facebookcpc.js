@@ -7,56 +7,80 @@ the current user.
 */
 // simple facebook posting
 var FBCPC = function($) {
-    var FBAPPNAME = "Charleston Park's Conservancy";
-    var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
-        document.location +
-        "\" method=\"POST\" invite=\"false\" type=\"" +
-        FBAPPNAME +
-        "\" content=\"I just donated to the Charleston Park's Conservancy.\" ><fb:multi-friend-selector showborder=\"true\" actiontext=\"Invite your friends to donate!\"/></fb:request-form></script></fb:fbml></fb:serverFbml>";
 
-    var FBBADGE = {
-        method: 'stream.publish',
-        message: 'I showed love to the Parks Conservancy!',
-        attachment: {
-            name: 'Charleston Parks Conservancy Donation.',
-            caption: 'I donated money!',
-            description: ('Charleston Parks Conservancy. '),
-            href: 'http://www.charlestonparksconservancy.org/'
+    var defaultconfig = {
+        name:"Charleston Park's Conservancy",
+        badge:  {
+            method: 'stream.publish',
+            message: 'I showed love to the Parks Conservancy!',
+            attachment: {
+                name: 'Charleston Parks Conservancy Donation.',
+                caption: 'I donated money!',
+                description: ('Charleston Parks Conservancy. '),
+                href: 'http://www.charlestonparksconservancy.org/'
+            },
+            action_links: [
+                { text:'fbcpc',
+                  href: 'http://www.charlestonparksconservancy.org/' }
+            ],
+            user_message_prompt:
+            "Charleston Parks Concervancy Donation Badge!"
         },
-        action_links: [
-            { text:'fbcpc',
-              href: 'http://www.charlestonparksconservancy.org/' }
-        ],
-        user_message_prompt:
-        "Charleston Parks Concervancy Donation Badge!"
+        friends_invite_content: "I just donated.",
+        friends_invite_actiontext: "Invite your friends to donate!",        
+        show_messages: true
     };
-
+    var config = {};
+    var createfriendstmpl = function(options) {
+        var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
+            document.location +
+            "\" method=\"POST\" invite=\"false\" type=\"" +
+            options.name +
+            "\" content=\"" +
+            options.friends_invite_content +
+            "\" ><fb:multi-friend-selector showborder=\"true\" actiontext=\"" +
+            options.friends_invite_actiontext +
+            "\"/></fb:request-form></script></fb:fbml></fb:serverFbml>";
+        return fbfriendsformtmpl;
+    };
     var $fblogin = $('#fblogin');
     var $fbfriends = $('#fbfriends');
+    var displayMessage = function(message) {
+        if (config.show_messages)
+        {
+            $fblogin.html(message);
+        }
+    };
     var obj = {
         // Form for posting the facebook badge.
         postBadge: function() {
-            $fblogin.html("Posting Badge.");
-            FB.ui(FBBADGE,
-                function(response) {
-                    if (response && response.post_id)
-                    {
-                        $fblogin.html("Badge Posted.");
-                        //render friends select
-                        var elem = $fbfriends.get(0);
-                        elem.innerHTML = fbfriendsformtmpl;
-                        FB.XFBML.parse(document.getElementById('fbfriends'));
-
-                    }
-                    else
-                    {
-                        $fblogin.html(
-                            "Cancled Posting Badge. Click To Try Again.");
-                    }
-                }
-            );
+            displayMessage("Posting Badge.");
+            var fbbadge = config.badge;
+            FB.ui(fbbadge,
+                  function(response) {
+                      if (response && response.post_id)
+                      {
+                          displayMessage("Badge Posted.");
+                          //render friends select
+                          var elem = $fbfriends.get(0);
+                          elem.innerHTML = createfriendstmpl(config);
+                          FB.XFBML.parse(document.getElementById('fbfriends'));
+                      }
+                      else
+                      {
+                          displayMessage(
+                              "Cancled Posting Badge. Click To Try Again."
+                          );
+                      }
+                  }
+                 );
         },
-        init: function() {
+        message: function(mess) {
+            displayMessage(mess);
+        },
+        init: function(options) {
+            // change the default configuration if options given
+            config = $.extend({}, defaultconfig, options);
             // Handle the login event.
             FB.Event.subscribe('auth.login', function(response) {
                 if (response.session)
@@ -74,11 +98,11 @@ var FBCPC = function($) {
     // on document ready
     $(function() {
         var $fblogin = $('#fblogin');
-        $('#fblogin').click(function() {
+        $fblogin.click(function() {
             var response = FB.getSession()
             if (response && response.access_token)
             {                
-                $fblogin.html("<div>Click to Post Badge.</div>");
+                FBCPC.message("<div>Click to Post Badge.</div>");
                 FBCPC.postBadge();
             }
             else
@@ -86,7 +110,7 @@ var FBCPC = function($) {
                 FB.login(function(response) {
                     if (!response.session)
                     {
-                        $fblogin.html(
+                        FBCPC.message(
                             "<div>Click to Login and  Post Badge.</div>"
                         );
                     }
