@@ -30,7 +30,7 @@ var FBCPC = function($) {
         friends_invite_actiontext: "Invite your friends to donate!",        
         show_messages: true
     };
-    var config = {};
+    var fbcpcconfig = {};
     var createfriendstmpl = function(options) {
         var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
             document.location +
@@ -46,7 +46,7 @@ var FBCPC = function($) {
     var $fblogin = $('#fblogin');
     var $fbfriends = $('#fbfriends');
     var displayMessage = function(message) {
-        if (config.show_messages)
+        if (fbcpcconfig.show_messages)
         {
             $fblogin.html(message);
         }
@@ -55,7 +55,7 @@ var FBCPC = function($) {
         // Form for posting the facebook badge.
         postBadge: function() {
             displayMessage("Posting Badge.");
-            var fbbadge = config.badge;
+            var fbbadge = $.extend(true,{},fbcpcconfig.badge);
             FB.ui(fbbadge,
                   function(response) {
                       if (response && response.post_id)
@@ -63,7 +63,7 @@ var FBCPC = function($) {
                           displayMessage("Badge Posted.");
                           //render friends select
                           var elem = $fbfriends.get(0);
-                          elem.innerHTML = createfriendstmpl(config);
+                          elem.innerHTML = createfriendstmpl(fbcpcconfig);
                           FB.XFBML.parse(document.getElementById('fbfriends'));
                       }
                       else
@@ -80,7 +80,7 @@ var FBCPC = function($) {
         },
         init: function(options) {
             // change the default configuration if options given
-            config = $.extend({}, defaultconfig, options);
+            fbcpcconfig = $.extend({}, defaultconfig, options);
             // Handle the login event.
             FB.Event.subscribe('auth.login', function(response) {
                 if (response.session)
