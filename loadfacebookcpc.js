@@ -5,8 +5,18 @@ window.fbAsyncInit = function() {
 // Load facebook javascript and jquery
 (function (global, oDOC, handler) {
     var head = oDOC.head || oDOC.getElementsByTagName("head");
+    var location = "";
+    var scripts = oDOC.getElementsByTagName("script");
+    for (var i = 0; i <= scripts.length; i++)
+    {
+        if (scripts[i] && scripts[i].src.indexOf("loadfacebookcpc.js") !== -1)
+        {
+            var index = scripts[i].src.indexOf("loadfacebookcpc.js");
+            location = scripts[i].src.substr(0,index);            
+        }
+    }
     var LABjsLoaded = function() {
-        $LAB.script("jquery-1.4.4.min.js")
+        $LAB.script(location+"jquery-1.4.4.min.js")
             .wait()
             .script(oDOC.location.protocol+
                     "//connect.facebook.net/en_US/all.js")
@@ -14,7 +24,7 @@ window.fbAsyncInit = function() {
                 FB.init({appId: '171559142877864', status: true, cookie: true,
                          xfbml: true});
             })
-            .script("facebookcpc.js").wait(function() {
+            .script(location+"facebookcpc.js").wait(function() {
                 var opts = {};
                 try {
                     opts = FacebookBadgeConfiguration;                    
@@ -43,7 +53,7 @@ window.fbAsyncInit = function() {
             scriptdone = true;
             LABjsLoaded();
         };
-        scriptElem.src = "LAB.min.js";
+        scriptElem.src = location+"LAB.min.js";
         head.insertBefore(scriptElem, head.firstChild);
     }, 0);
 
