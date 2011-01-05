@@ -7,7 +7,6 @@ the current user.
 */
 // simple facebook posting
 var FBCPC = function($) {
-
     var defaultconfig = {
         name:"Charleston Park's Conservancy",
         badge:  {
@@ -31,6 +30,7 @@ var FBCPC = function($) {
         show_messages: true
     };
     var fbcpcconfig = {};
+    var clicked = false;
     var createfriendstmpl = function(options) {
         var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
             document.location +
@@ -78,12 +78,15 @@ var FBCPC = function($) {
         message: function(mess) {
             displayMessage(mess);
         },
+        setClicked: function(val) {
+            clicked = val;
+        },
         init: function(options) {
             // change the default configuration if options given
             fbcpcconfig = $.extend({}, defaultconfig, options);
             // Handle the login event.
             FB.Event.subscribe('auth.login', function(response) {
-                if (response.session)
+                if (response.session && clicked)
                 {
                     // post badge
                     FBCPC.postBadge();
@@ -99,7 +102,8 @@ var FBCPC = function($) {
     $(function() {
         var $fblogin = $('#fblogin');
         $fblogin.click(function() {
-            var response = FB.getSession()
+            FBCPC.setClicked(true);
+            var response = FB.getSession();
             if (response && response.access_token)
             {                
                 FBCPC.message("<div>Click to Post Badge.</div>");
