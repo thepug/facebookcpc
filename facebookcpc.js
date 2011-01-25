@@ -11,16 +11,14 @@ var FBCPC = function($) {
         name:"Charleston Park's Conservancy",
         badge:  {
             method: 'stream.publish',
-            message: 'I showed love to the Parks Conservancy!',
-            attachment: {
-                name: 'Charleston Parks Conservancy Donation.',
-                caption: 'I donated money!',
-                description: ('Charleston Parks Conservancy. '),
-                href: 'http://www.charlestonparksconservancy.org/'
-            },
+            message: 'I showed my parks some love by donating to the Charleston Parks Conservancy.',
+            picture: 'Charleston_Parks_Badge.png',
+            name: 'Charleston Parks Conservancy Badge',
+            description: ('Charleston Parks Conservancy. '),
+            link: 'http://www.charlestonparksconservancy.org/donate/',
             action_links: [
                 { text:'fbcpc',
-                  href: 'http://www.charlestonparksconservancy.org/' }
+                  href: 'http://www.charlestonparksconservancy.org/donate/' }
             ],
             user_message_prompt:
             "Charleston Parks Concervancy Donation Badge!"

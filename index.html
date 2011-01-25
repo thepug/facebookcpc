@@ -14,19 +14,17 @@
     </div>
     <script type="text/javascript"> 
       var FacebookBadgeConfiguration = {
-          name: "Charleston Parks Conservancy.",
+          name: "Charleston Parks Conservancy",
           badge: {
             method: 'stream.publish',
-            message: 'I showed love to the Parks Conservancy!',
-            attachment: {
-                name: 'Charleston Parks Conservancy Donation.',
-                caption: 'I donated money!',
-                description: ('Charleston Parks Conservancy. '),
-                href: 'http://www.charlestonparksconservancy.org/'
-            },
+            message: '',      
+            picture: 'http://stepahead.flarify.com/cpc/Charleston_Parks_Badge.png',
+            name: 'Charleston Parks Conservancy Badge',
+            description: ('I showed my parks some love by donating to the Charleston Parks Conservancy.'),
+            link: 'http://www.charlestonparksconservancy.org/donate/',
             action_links: [
                 { text:'Charleston Parks Conservancy',
-                  href: 'http://www.charlestonparksconservancy.org/' }
+                  href: 'http://facebook.com/charlestonparksconservancy' }
             ],
             user_message_prompt:
             "Charleston Parks Concervancy Donation Badge!"
@@ -37,7 +35,7 @@
       };
     </script>
     <script type="text/javascript"
-            src="http://d3hgfi9abg5n35.cloudfront.net/loadfacebookcpc.js">
+            src="loadfacebookcpc.js">
     </script>
     
   </body>
