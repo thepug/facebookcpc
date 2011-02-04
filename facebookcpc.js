@@ -29,18 +29,6 @@ var FBCPC = function($) {
     };
     var fbcpcconfig = {};
     var clicked = false;
-    var createfriendstmpl = function(options) {
-        var fbfriendsformtmpl = "<fb:serverFbml><script type=\"text/fbml\"><fb:fbml><fb:request-form action=\"" +
-            document.location +
-            "\" method=\"POST\" invite=\"false\" type=\"" +
-            options.name +
-            "\" content=\"" +
-            options.friends_invite_content +
-            "\" ><fb:multi-friend-selector showborder=\"true\" actiontext=\"" +
-            options.friends_invite_actiontext +
-            "\"/></fb:request-form></script></fb:fbml></fb:serverFbml>";
-        return fbfriendsformtmpl;
-    };
     var $fblogin = $('#fblogin');
     var $fbfriends = $('#fbfriends');
     var displayMessage = function(message) {
@@ -59,10 +47,10 @@ var FBCPC = function($) {
                       if (response && response.post_id)
                       {
                           displayMessage("Badge Posted.");
-                          //render friends select
-                          var elem = $fbfriends.get(0);
-                          elem.innerHTML = createfriendstmpl(fbcpcconfig);
-                          FB.XFBML.parse(document.getElementById('fbfriends'));
+                          //render friends select                          
+                          FB.ui({method: 'apprequests',
+                                 message: fbcpcconfig.friends_invite_content,
+                                 data: fbcpcconfig.friends_invite_actiontext});
                       }
                       else
                       {

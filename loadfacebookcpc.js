@@ -21,7 +21,7 @@ window.fbAsyncInit = function() {
             .script(oDOC.location.protocol+
                     "//connect.facebook.net/en_US/all.js")
             .wait(function() {
-                FB.init({appId: '171559142877864', status: true, cookie: true,
+                FB.init({appId: '107244739352842', status: true, cookie: true,
                          xfbml: true});
             })
             .script(location+"facebookcpc.js").wait(function() {
