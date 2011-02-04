@@ -25,7 +25,10 @@ var FBCPC = function($) {
         },
         friends_invite_content: "I just donated.",
         friends_invite_actiontext: "Invite your friends to donate!",        
-        show_messages: true
+        show_messages: true,
+        size: {width:640,height:480}, 
+        width:640,
+        height:480
     };
     var fbcpcconfig = {};
     var clicked = false;
@@ -50,7 +53,9 @@ var FBCPC = function($) {
                           //render friends select                          
                           FB.ui({method: 'apprequests',
                                  message: fbcpcconfig.friends_invite_content,
-                                 data: fbcpcconfig.friends_invite_actiontext});
+                                 data: fbcpcconfig.friends_invite_actiontext,
+                                 size: {width:640,height:480}, 
+                                 width:640, height:480});
                       }
                       else
                       {
